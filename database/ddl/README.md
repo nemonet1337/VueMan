@@ -1,0 +1,3 @@
+# database/ddl
+
+DDLファイル

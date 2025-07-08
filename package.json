@@ -1,0 +1,23 @@
+{
+  "name": "vueman-backend",
+  "version": "1.0.0",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "ts-node-dev src/backend/src/app.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.11.18",
+    "@types/pg": "^8.15.4",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.3"
+  }
+}

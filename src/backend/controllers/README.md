@@ -1,3 +1,0 @@
-# src/backend/controllers
-
-APIコントローラー

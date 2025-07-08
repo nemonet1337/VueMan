@@ -1,0 +1,29 @@
+{
+  "name": "vueman",
+  "version": "1.0.0",
+  "description": "このプロジェクトは、Codexを用いて自動生成されたものになります",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "ts-node src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.23",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.0.10",
+    "@types/pg": "^8.15.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

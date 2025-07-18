@@ -22,8 +22,8 @@ export const getOfficeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
@@ -39,7 +39,7 @@ export const getOfficeHandler = async (
 };
 
 export const createOfficeHandler = async (
-  request: FastifyRequest<{ Body: { name: string; location: string } }>,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
   const parse = createOfficeSchema.safeParse(request.body);
@@ -56,11 +56,11 @@ export const createOfficeHandler = async (
 };
 
 export const updateOfficeHandler = async (
-  request: FastifyRequest<{ Params: { id: string }; Body: { name?: string; location?: string } }>,
+  request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   const parse = updateOfficeSchema.safeParse(request.body);
@@ -83,8 +83,8 @@ export const deleteOfficeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {

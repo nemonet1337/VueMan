@@ -10,10 +10,9 @@ export const loginHandler = async (
   const { email, password } = request.body;
   try {
     const result = await request.server.pg.query<{
-      id: number;
+      id: string;
       email: string;
       password_hash: string;
-      roles: string[];
     }>('SELECT * FROM m_users WHERE email = $1', [email]);
 
     if (result.rowCount === 0) {
@@ -29,7 +28,6 @@ export const loginHandler = async (
     const payload: JwtPayload = {
       id: user.id,
       email: user.email,
-      roles: user.roles,
     };
 
     const token = signJwt(payload);

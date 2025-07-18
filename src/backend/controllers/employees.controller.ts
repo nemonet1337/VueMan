@@ -22,8 +22,8 @@ export const getEmployeeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
@@ -59,8 +59,8 @@ export const updateEmployeeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   const parse = updateEmployeeSchema.safeParse(request.body);
@@ -83,8 +83,8 @@ export const deleteEmployeeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {

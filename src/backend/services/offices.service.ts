@@ -3,33 +3,33 @@ import { Office } from '../../shared/types/offices';
 
 export const getOffices = async (): Promise<Office[]> => {
   const result = await pool.query<Office>(
-    'SELECT * FROM m_offices WHERE is_active = true ORDER BY id'
+    'SELECT id, name, address, open_time, close_time FROM m_offices ORDER BY id'
   );
   return result.rows;
 };
 
-export const getOfficeById = async (id: number): Promise<Office | null> => {
+export const getOfficeById = async (id: string): Promise<Office | null> => {
   const result = await pool.query<Office>(
-    'SELECT * FROM m_offices WHERE id = $1 AND is_active = true',
+    'SELECT id, name, address, open_time, close_time FROM m_offices WHERE id = $1',
     [id]
   );
   return result.rows[0] || null;
 };
 
 export const createOffice = async (
-  data: { name: string; location: string }
+  data: { name: string; address?: string | null; open_time?: string | null; close_time?: string | null }
 ): Promise<Office> => {
-  const { name, location } = data;
+  const { name, address = null, open_time = null, close_time = null } = data;
   const result = await pool.query<Office>(
-    'INSERT INTO m_offices (name, location, is_active, created_at, updated_at) VALUES ($1, $2, true, now(), now()) RETURNING *',
-    [name, location]
+    'INSERT INTO m_offices (name, address, open_time, close_time) VALUES ($1, $2, $3, $4) RETURNING id, name, address, open_time, close_time',
+    [name, address, open_time, close_time]
   );
   return result.rows[0];
 };
 
 export const updateOffice = async (
-  id: number,
-  data: { name?: string; location?: string }
+  id: string,
+  data: { name?: string; address?: string | null; open_time?: string | null; close_time?: string | null }
 ): Promise<Office | null> => {
   const fields: string[] = [];
   const values: any[] = [];
@@ -39,27 +39,34 @@ export const updateOffice = async (
     fields.push(`name = $${idx++}`);
     values.push(data.name);
   }
-  if (data.location !== undefined) {
-    fields.push(`location = $${idx++}`);
-    values.push(data.location);
+  if (data.address !== undefined) {
+    fields.push(`address = $${idx++}`);
+    values.push(data.address);
   }
+  if (data.open_time !== undefined) {
+    fields.push(`open_time = $${idx++}`);
+    values.push(data.open_time);
+  }
+  if (data.close_time !== undefined) {
+    fields.push(`close_time = $${idx++}`);
+    values.push(data.close_time);
+  }
+
   if (fields.length === 0) {
     return null;
   }
 
-  fields.push('updated_at = now()');
   values.push(id);
-
   const result = await pool.query<Office>(
-    `UPDATE m_offices SET ${fields.join(', ')} WHERE id = $${idx} AND is_active = true RETURNING *`,
+    `UPDATE m_offices SET ${fields.join(', ')} WHERE id = $${idx} RETURNING id, name, address, open_time, close_time`,
     values
   );
   return result.rows[0] || null;
 };
 
-export const deleteOffice = async (id: number): Promise<Office | null> => {
+export const deleteOffice = async (id: string): Promise<Office | null> => {
   const result = await pool.query<Office>(
-    'UPDATE m_offices SET is_active = false, updated_at = now() WHERE id = $1 AND is_active = true RETURNING *',
+    'DELETE FROM m_offices WHERE id = $1 RETURNING id, name, address, open_time, close_time',
     [id]
   );
   return result.rows[0] || null;

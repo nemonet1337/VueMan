@@ -1,8 +1,7 @@
 export interface Office {
-  id: number;
+  id: string;
   name: string;
-  location: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  address: string | null;
+  open_time: string | null;
+  close_time: string | null;
 }

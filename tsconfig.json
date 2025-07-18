@@ -2,11 +2,11 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "commonjs",
-    "rootDir": "src/backend/src",
+    "rootDir": "src/backend",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/backend/src/**/*"]
+  "include": ["src/backend/**/*", "src/shared/types/**/*.d.ts"]
 }

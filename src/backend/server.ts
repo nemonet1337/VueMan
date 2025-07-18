@@ -4,6 +4,7 @@ import authRoutes from './routes/auth.routes';
 import positionsRoutes from './routes/positions.routes';
 import officeRoutes from './routes/offices.routes';
 import userRoutes from './routes/users.routes';
+import userRolesRoutes from './routes/userRoles.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
 import employeeRoutes from './routes/employees.routes';
@@ -23,6 +24,7 @@ server.register(positionsRoutes);
 server.register(officeRoutes);
 server.register(employeeRoutes); // 従業員マスタ
 server.register(userRoutes);     // ユーザーマスタ
+server.register(userRolesRoutes); // ユーザーロール
 
 const start = async () => {
   try {

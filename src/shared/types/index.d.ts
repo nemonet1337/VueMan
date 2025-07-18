@@ -45,6 +45,12 @@ export interface Position {
   updated_at: Date;
 }
 
+export interface UserRole {
+  user_id: number;
+  role_id: number;
+  assigned_at: string;
+}
+
 declare module 'fastify' {
   interface FastifyInstance {
     pg: Pool;

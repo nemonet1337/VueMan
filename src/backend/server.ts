@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
+import positionsRoutes from './routes/positions.routes';
 import dbPlugin from './plugins/db';
 
 dotenv.config();
@@ -11,6 +12,7 @@ server.decorateRequest('user', null);
 
 server.register(dbPlugin);
 server.register(authRoutes);
+server.register(positionsRoutes);
 
 const start = async () => {
   try {

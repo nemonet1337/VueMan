@@ -61,6 +61,18 @@ export interface Department {
   updated_at: string;
 }
 
+export interface WorkPattern {
+  id: number;
+  pattern_code: string;
+  name: string;
+  start_time: string;
+  end_time: string;
+  break_minutes: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface UserRole {
   user_id: number;
   role_id: number;

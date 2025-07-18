@@ -9,6 +9,7 @@ import departmentsRoutes from './routes/departments.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
 import employeeRoutes from './routes/employees.routes';
+import workPatternRoutes from './routes/work_patterns.routes';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ server.register(roleRoutes);
 server.register(departmentsRoutes);
 server.register(employeeRoutes); // 従業員マスタ
 server.register(userRoutes);     // ユーザーマスタ
+server.register(workPatternRoutes);
 
 const start = async () => {
   try {

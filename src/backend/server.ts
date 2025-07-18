@@ -4,6 +4,7 @@ import authRoutes from './routes/auth.routes';
 import positionsRoutes from './routes/positions.routes';
 import officeRoutes from './routes/offices.routes';
 import userRoutes from './routes/users.routes';
+import departmentsRoutes from './routes/departments.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
 
@@ -21,6 +22,7 @@ server.register(authRoutes);
 server.register(positionsRoutes);
 server.register(officeRoutes);
 server.register(userRoutes);
+server.register(departmentsRoutes);
 
 const start = async () => {
   try {

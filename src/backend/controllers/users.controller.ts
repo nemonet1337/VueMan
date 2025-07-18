@@ -19,8 +19,8 @@ export const getUserHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
@@ -43,9 +43,9 @@ export const createUserHandler = async (
   if (!parse.success) {
     return reply.code(400).send({ message: parse.error.message });
   }
-  const { email, password, roles } = parse.data;
+  const { email, password } = parse.data;
   try {
-    const user = await userService.createUser(email, password, roles);
+    const user = await userService.createUser(email, password);
     return reply.code(201).send({ data: user });
   } catch (err) {
     reply.log.error(err);
@@ -57,8 +57,8 @@ export const updateUserHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   const parse = updateUserSchema.safeParse(request.body);
@@ -81,8 +81,8 @@ export const deleteUserHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {

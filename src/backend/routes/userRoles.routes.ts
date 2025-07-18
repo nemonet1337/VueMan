@@ -9,6 +9,6 @@ import {
 export default async function userRolesRoutes(fastify: FastifyInstance) {
   fastify.get('/user-roles', { onRequest: [fastify.authenticate] }, getAllUserRolesHandler);
   fastify.get<{ Params: { userId: string } }>('/user-roles/:userId', { onRequest: [fastify.authenticate] }, getUserRolesHandler);
-  fastify.post('/user-roles', { onRequest: [fastify.authenticate] }, assignRoleHandler);
-  fastify.delete('/user-roles', { onRequest: [fastify.authenticate] }, removeRoleHandler);
+  fastify.post<{ Body: { user_id: string; role_id: string } }>('/user-roles', { onRequest: [fastify.authenticate] }, assignRoleHandler);
+  fastify.delete<{ Body: { user_id: string; role_id: string } }>('/user-roles', { onRequest: [fastify.authenticate] }, removeRoleHandler);
 }

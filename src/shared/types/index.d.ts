@@ -1,70 +1,49 @@
+import { Pool } from 'pg';
+import { FastifyRequest, FastifyReply } from 'fastify';
+
 export interface JwtPayload {
-  id: number;
+  id: string;
   email: string;
-  roles: string[];
 }
 
 export interface User {
-  id: number;
+  id: string;
   email: string;
-  roles: string[];
-  is_active: boolean;
   created_at: string;
-  updated_at: string;
 }
 
 export interface Office {
-  id: number;
+  id: string;
   name: string;
-  location: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  address: string | null;
+  open_time: string | null;
+  close_time: string | null;
 }
 
 export interface Employee {
-  id: number;
-  employee_code: string;
-  full_name: string;
-  email: string;
-  hire_date: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  id: string;
+  user_id: string | null;
+  name: string;
+  office_id: string;
+  position_id: string;
+  work_pattern_id: string;
+  status: string;
+  hired_at: string | null;
 }
 
 export interface Position {
-  id: number;
-  name: string;
-  description: string | null;
-  is_active: boolean;
-  created_at: Date;
-  updated_at: Date;
+  id: string;
+  title: string;
 }
 
 export interface Role {
-  id: number;
-  role_name: string;
-  description: string | null;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Department {
-  id: number;
-  department_code: string;
+  id: string;
   name: string;
-  office_id: number;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface UserRole {
-  user_id: number;
-  role_id: number;
-  assigned_at: string;
+  user_id: string;
+  role_id: string;
 }
 
 declare module 'fastify' {
@@ -79,4 +58,11 @@ declare module '@fastify/jwt' {
     payload: JwtPayload;
     user: JwtPayload;
   }
+}
+
+export interface Department {
+  id: string;
+  department_code: string;
+  name: string;
+  office_id: string;
 }

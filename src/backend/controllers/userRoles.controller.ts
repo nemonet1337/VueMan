@@ -19,8 +19,8 @@ export const getUserRolesHandler = async (
   request: FastifyRequest<{ Params: { userId: string } }>,
   reply: FastifyReply
 ) => {
-  const userId = Number(request.params.userId);
-  if (Number.isNaN(userId)) {
+  const userId = request.params.userId;
+  if (!userId) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
@@ -33,7 +33,7 @@ export const getUserRolesHandler = async (
 };
 
 export const assignRoleHandler = async (
-  request: FastifyRequest<{ Body: { user_id: number; role_id: number } }>,
+  request: FastifyRequest<{ Body: { user_id: string; role_id: string } }>,
   reply: FastifyReply
 ) => {
   const parse = userRoleSchema.safeParse(request.body);
@@ -54,7 +54,7 @@ export const assignRoleHandler = async (
 };
 
 export const removeRoleHandler = async (
-  request: FastifyRequest<{ Body: { user_id: number; role_id: number } }>,
+  request: FastifyRequest<{ Body: { user_id: string; role_id: string } }>,
   reply: FastifyReply
 ) => {
   const parse = userRoleSchema.safeParse(request.body);

@@ -19,8 +19,8 @@ export const getRoleHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
@@ -56,8 +56,8 @@ export const updateRoleHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   const parse = updateRoleSchema.safeParse(request.body);
@@ -80,8 +80,8 @@ export const deleteRoleHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
-  const id = Number(request.params.id);
-  if (Number.isNaN(id)) {
+  const id = request.params.id;
+  if (!id) {
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {

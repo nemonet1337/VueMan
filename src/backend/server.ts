@@ -5,8 +5,10 @@ import positionsRoutes from './routes/positions.routes';
 import officeRoutes from './routes/offices.routes';
 import userRoutes from './routes/users.routes';
 import roleRoutes from './routes/roles.routes';
+import departmentsRoutes from './routes/departments.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
+import employeeRoutes from './routes/employees.routes';
 
 dotenv.config();
 
@@ -23,6 +25,9 @@ server.register(positionsRoutes);
 server.register(officeRoutes);
 server.register(userRoutes);
 server.register(roleRoutes);
+server.register(departmentsRoutes);
+server.register(employeeRoutes); // 従業員マスタ
+server.register(userRoutes);     // ユーザーマスタ
 
 const start = async () => {
   try {

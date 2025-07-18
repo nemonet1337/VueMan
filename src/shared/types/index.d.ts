@@ -25,6 +25,17 @@ export interface Office {
   updated_at: string;
 }
 
+export interface Employee {
+  id: number;
+  employee_code: string;
+  full_name: string;
+  email: string;
+  hire_date: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Position {
   id: number;
   name: string;
@@ -38,6 +49,16 @@ export interface Role {
   id: number;
   role_name: string;
   description: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Department {
+  id: number;
+  department_code: string;
+  name: string;
+  office_id: number;
   is_active: boolean;
   created_at: string;
   updated_at: string;

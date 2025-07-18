@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import officeRoutes from './routes/offices.routes';
+import userRoutes from './routes/users.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
 
@@ -15,6 +16,7 @@ server.register(dbPlugin);
 server.register(jwtPlugin);
 server.register(authRoutes);
 server.register(officeRoutes);
+server.register(userRoutes);
 
 const start = async () => {
   try {

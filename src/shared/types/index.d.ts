@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { FastifyRequest, FastifyReply } from 'fastify';
 
 export interface JwtPayload {
   id: number;
@@ -10,6 +11,18 @@ export interface User {
   id: number;
   email: string;
   roles: string[];
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Office {
+  id: number;
+  name: string;
+  location: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Position {
@@ -22,10 +35,15 @@ export interface Position {
 }
 
 declare module 'fastify' {
-  interface FastifyRequest {
-    user?: JwtPayload;
-  }
   interface FastifyInstance {
     pg: Pool;
+    authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+  }
+}
+
+declare module '@fastify/jwt' {
+  interface FastifyJWT {
+    payload: JwtPayload;
+    user: JwtPayload;
   }
 }

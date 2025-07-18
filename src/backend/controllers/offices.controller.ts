@@ -1,21 +1,24 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { createUserSchema, updateUserSchema } from '../schemas/users.schema';
-import * as userService from '../services/users.service';
+import {
+  createOfficeSchema,
+  updateOfficeSchema,
+} from '../schemas/offices.schema';
+import * as officeService from '../services/offices.service';
 
-export const getUsersHandler = async (
+export const getOfficesHandler = async (
   _request: FastifyRequest,
   reply: FastifyReply
 ) => {
   try {
-    const users = await userService.getUsers();
-    return reply.send({ data: users });
+    const offices = await officeService.getOffices();
+    return reply.send({ data: offices });
   } catch (err) {
     reply.log.error(err);
     return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const getUserHandler = async (
+export const getOfficeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
@@ -24,36 +27,35 @@ export const getUserHandler = async (
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
-    const user = await userService.getUserById(id);
-    if (!user) {
+    const office = await officeService.getOfficeById(id);
+    if (!office) {
       return reply.code(404).send({ message: 'not found' });
     }
-    return reply.send({ data: user });
+    return reply.send({ data: office });
   } catch (err) {
     reply.log.error(err);
     return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const createUserHandler = async (
+export const createOfficeHandler = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const parse = createUserSchema.safeParse(request.body);
+  const parse = createOfficeSchema.safeParse(request.body);
   if (!parse.success) {
     return reply.code(400).send({ message: parse.error.message });
   }
-  const { email, password, roles } = parse.data;
   try {
-    const user = await userService.createUser(email, password, roles);
-    return reply.code(201).send({ data: user });
+    const office = await officeService.createOffice(parse.data);
+    return reply.code(201).send({ data: office });
   } catch (err) {
     reply.log.error(err);
     return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const updateUserHandler = async (
+export const updateOfficeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
@@ -61,23 +63,23 @@ export const updateUserHandler = async (
   if (Number.isNaN(id)) {
     return reply.code(400).send({ message: 'invalid id' });
   }
-  const parse = updateUserSchema.safeParse(request.body);
+  const parse = updateOfficeSchema.safeParse(request.body);
   if (!parse.success) {
     return reply.code(400).send({ message: parse.error.message });
   }
   try {
-    const user = await userService.updateUser(id, parse.data);
-    if (!user) {
+    const office = await officeService.updateOffice(id, parse.data);
+    if (!office) {
       return reply.code(404).send({ message: 'not found' });
     }
-    return reply.send({ data: user });
+    return reply.send({ data: office });
   } catch (err) {
     reply.log.error(err);
     return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const deleteUserHandler = async (
+export const deleteOfficeHandler = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) => {
@@ -86,11 +88,11 @@ export const deleteUserHandler = async (
     return reply.code(400).send({ message: 'invalid id' });
   }
   try {
-    const user = await userService.deleteUser(id);
-    if (!user) {
+    const office = await officeService.deleteOffice(id);
+    if (!office) {
       return reply.code(404).send({ message: 'not found' });
     }
-    return reply.send({ data: user });
+    return reply.send({ data: office });
   } catch (err) {
     reply.log.error(err);
     return reply.code(500).send({ message: 'internal server error' });

@@ -2,7 +2,10 @@ import Fastify from 'fastify';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import positionsRoutes from './routes/positions.routes';
+import officeRoutes from './routes/offices.routes';
+import userRoutes from './routes/users.routes';
 import dbPlugin from './plugins/db';
+import jwtPlugin from './utils/jwt';
 
 dotenv.config();
 
@@ -11,8 +14,13 @@ const server = Fastify();
 server.decorateRequest('user', null);
 
 server.register(dbPlugin);
+server.register(jwtPlugin);
+
+// すべてのルートを登録
 server.register(authRoutes);
 server.register(positionsRoutes);
+server.register(officeRoutes);
+server.register(userRoutes);
 
 const start = async () => {
   try {

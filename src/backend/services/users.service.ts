@@ -4,9 +4,17 @@ import { User } from '../../shared/types';
 
 export const getUsers = async (): Promise<User[]> => {
   const result = await pool.query<User>(
-    'SELECT id, email, roles FROM m_users ORDER BY id'
+    'SELECT id, email, roles, is_active, created_at, updated_at FROM m_users WHERE is_active = true ORDER BY id'
   );
   return result.rows;
+};
+
+export const getUserById = async (id: number): Promise<User | null> => {
+  const result = await pool.query<User>(
+    'SELECT id, email, roles, is_active, created_at, updated_at FROM m_users WHERE id = $1 AND is_active = true',
+    [id]
+  );
+  return result.rows[0] || null;
 };
 
 export const createUser = async (
@@ -16,7 +24,7 @@ export const createUser = async (
 ): Promise<User> => {
   const passwordHash = await bcrypt.hash(password, 10);
   const result = await pool.query<User>(
-    'INSERT INTO m_users (email, password_hash, roles) VALUES ($1, $2, $3) RETURNING id, email, roles',
+    'INSERT INTO m_users (email, password_hash, roles, is_active, created_at, updated_at) VALUES ($1, $2, $3, true, now(), now()) RETURNING id, email, roles, is_active, created_at, updated_at',
     [email, passwordHash, roles]
   );
   return result.rows[0];
@@ -24,7 +32,7 @@ export const createUser = async (
 
 export const updateUser = async (
   id: number,
-  data: { email?: string; password?: string; roles?: string[] }
+  data: { email?: string; roles?: string[] }
 ): Promise<User | null> => {
   const fields: string[] = [];
   const values: any[] = [];
@@ -33,11 +41,6 @@ export const updateUser = async (
   if (data.email !== undefined) {
     fields.push(`email = $${idx++}`);
     values.push(data.email);
-  }
-  if (data.password !== undefined) {
-    const hash = await bcrypt.hash(data.password, 10);
-    fields.push(`password_hash = $${idx++}`);
-    values.push(hash);
   }
   if (data.roles !== undefined) {
     fields.push(`roles = $${idx++}`);
@@ -48,9 +51,11 @@ export const updateUser = async (
     return null;
   }
 
+  fields.push('updated_at = now()');
   values.push(id);
+
   const result = await pool.query<User>(
-    `UPDATE m_users SET ${fields.join(', ')} WHERE id = $${idx} RETURNING id, email, roles`,
+    `UPDATE m_users SET ${fields.join(', ')} WHERE id = $${idx} RETURNING id, email, roles, is_active, created_at, updated_at`,
     values
   );
 
@@ -59,7 +64,7 @@ export const updateUser = async (
 
 export const deleteUser = async (id: number): Promise<User | null> => {
   const result = await pool.query<User>(
-    'DELETE FROM m_users WHERE id = $1 RETURNING id, email, roles',
+    'UPDATE m_users SET is_active = false, updated_at = now() WHERE id = $1 RETURNING id, email, roles, is_active, created_at, updated_at',
     [id]
   );
   return result.rows[0] || null;

@@ -1,79 +1,98 @@
-import { Request, Response } from 'express';
-import {
-  createUserSchema,
-  updateUserSchema,
-} from '../schemas/users.schema';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { createUserSchema, updateUserSchema } from '../schemas/users.schema';
 import * as userService from '../services/users.service';
 
-export const getUsers = async (_req: Request, res: Response) => {
+export const getUsersHandler = async (
+  _request: FastifyRequest,
+  reply: FastifyReply
+) => {
   try {
     const users = await userService.getUsers();
-    res.json({ data: users, message: 'success' });
+    return reply.send({ data: users });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'internal server error' });
+    reply.log.error(err);
+    return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const createUser = async (req: Request, res: Response) => {
-  const parse = createUserSchema.safeParse(req.body);
-  if (!parse.success) {
-    res.status(400).json({ message: parse.error.message });
-    return;
+export const getUserHandler = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
+  const id = Number(request.params.id);
+  if (Number.isNaN(id)) {
+    return reply.code(400).send({ message: 'invalid id' });
   }
+  try {
+    const user = await userService.getUserById(id);
+    if (!user) {
+      return reply.code(404).send({ message: 'not found' });
+    }
+    return reply.send({ data: user });
+  } catch (err) {
+    reply.log.error(err);
+    return reply.code(500).send({ message: 'internal server error' });
+  }
+};
 
+export const createUserHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const parse = createUserSchema.safeParse(request.body);
+  if (!parse.success) {
+    return reply.code(400).send({ message: parse.error.message });
+  }
   const { email, password, roles } = parse.data;
   try {
     const user = await userService.createUser(email, password, roles);
-    res.status(201).json({ data: user, message: 'success' });
+    return reply.code(201).send({ data: user });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'internal server error' });
+    reply.log.error(err);
+    return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+export const updateUserHandler = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
+  const id = Number(request.params.id);
   if (Number.isNaN(id)) {
-    res.status(400).json({ message: 'invalid id' });
-    return;
+    return reply.code(400).send({ message: 'invalid id' });
   }
-
-  const parse = updateUserSchema.safeParse(req.body);
+  const parse = updateUserSchema.safeParse(request.body);
   if (!parse.success) {
-    res.status(400).json({ message: parse.error.message });
-    return;
+    return reply.code(400).send({ message: parse.error.message });
   }
-
   try {
     const user = await userService.updateUser(id, parse.data);
     if (!user) {
-      res.status(404).json({ message: 'not found' });
-      return;
+      return reply.code(404).send({ message: 'not found' });
     }
-    res.json({ data: user, message: 'success' });
+    return reply.send({ data: user });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'internal server error' });
+    reply.log.error(err);
+    return reply.code(500).send({ message: 'internal server error' });
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+export const deleteUserHandler = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) => {
+  const id = Number(request.params.id);
   if (Number.isNaN(id)) {
-    res.status(400).json({ message: 'invalid id' });
-    return;
+    return reply.code(400).send({ message: 'invalid id' });
   }
-
   try {
     const user = await userService.deleteUser(id);
     if (!user) {
-      res.status(404).json({ message: 'not found' });
-      return;
+      return reply.code(404).send({ message: 'not found' });
     }
-    res.json({ data: user, message: 'success' });
+    return reply.send({ data: user });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'internal server error' });
+    reply.log.error(err);
+    return reply.code(500).send({ message: 'internal server error' });
   }
 };

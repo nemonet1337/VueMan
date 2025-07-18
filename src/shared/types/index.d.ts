@@ -11,6 +11,9 @@ export interface User {
   id: number;
   email: string;
   roles: string[];
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Office {
@@ -31,6 +34,15 @@ export interface Employee {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface Position {
+  id: number;
+  name: string;
+  description: string | null;
+  is_active: boolean;
+  created_at: Date;
+  updated_at: Date;
 }
 
 declare module 'fastify' {

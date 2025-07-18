@@ -22,6 +22,17 @@ export interface Office {
   updated_at: string;
 }
 
+export interface Employee {
+  id: number;
+  employee_code: string;
+  full_name: string;
+  email: string;
+  hire_date: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 declare module 'fastify' {
   interface FastifyInstance {
     pg: Pool;

@@ -4,6 +4,7 @@ import authRoutes from './routes/auth.routes';
 import officeRoutes from './routes/offices.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
+import employeeRoutes from './routes/employees.routes';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ server.register(dbPlugin);
 server.register(jwtPlugin);
 server.register(authRoutes);
 server.register(officeRoutes);
+server.register(employeeRoutes);
 
 const start = async () => {
   try {

@@ -6,6 +6,12 @@ export interface JwtPayload {
   roles: string[];
 }
 
+export interface User {
+  id: number;
+  email: string;
+  roles: string[];
+}
+
 declare module 'fastify' {
   interface FastifyRequest {
     user?: JwtPayload;

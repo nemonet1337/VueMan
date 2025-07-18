@@ -34,6 +34,16 @@ export interface Position {
   updated_at: Date;
 }
 
+export interface Department {
+  id: number;
+  department_code: string;
+  name: string;
+  office_id: number;
+  is_active: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
 declare module 'fastify' {
   interface FastifyInstance {
     pg: Pool;

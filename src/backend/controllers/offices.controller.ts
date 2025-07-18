@@ -39,7 +39,7 @@ export const getOfficeHandler = async (
 };
 
 export const createOfficeHandler = async (
-  request: FastifyRequest,
+  request: FastifyRequest<{ Body: { name: string; location: string } }>,
   reply: FastifyReply
 ) => {
   const parse = createOfficeSchema.safeParse(request.body);
@@ -56,7 +56,7 @@ export const createOfficeHandler = async (
 };
 
 export const updateOfficeHandler = async (
-  request: FastifyRequest<{ Params: { id: string } }>,
+  request: FastifyRequest<{ Params: { id: string }; Body: { name?: string; location?: string } }>,
   reply: FastifyReply
 ) => {
   const id = Number(request.params.id);

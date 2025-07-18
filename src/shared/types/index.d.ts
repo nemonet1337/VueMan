@@ -1,6 +1,3 @@
-import { Pool } from 'pg';
-import { FastifyRequest, FastifyReply } from 'fastify';
-
 export interface JwtPayload {
   id: number;
   email: string;
@@ -74,6 +71,12 @@ export interface WorkPattern {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface UserRole {
+  user_id: number;
+  role_id: number;
+  assigned_at: string;
 }
 
 declare module 'fastify' {

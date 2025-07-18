@@ -4,6 +4,7 @@ import authRoutes from './routes/auth.routes';
 import positionsRoutes from './routes/positions.routes';
 import officeRoutes from './routes/offices.routes';
 import userRoutes from './routes/users.routes';
+import userRolesRoutes from './routes/userRoles.routes';
 import roleRoutes from './routes/roles.routes';
 import departmentsRoutes from './routes/departments.routes';
 import dbPlugin from './plugins/db';
@@ -30,6 +31,7 @@ server.register(departmentsRoutes);
 server.register(employeeRoutes); // 従業員マスタ
 server.register(userRoutes);     // ユーザーマスタ
 server.register(workPatternRoutes);
+server.register(userRolesRoutes); // ユーザーロール
 
 const start = async () => {
   try {

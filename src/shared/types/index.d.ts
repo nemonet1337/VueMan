@@ -1,6 +1,3 @@
-import { Pool } from 'pg';
-import { FastifyRequest, FastifyReply } from 'fastify';
-
 export interface JwtPayload {
   id: number;
   email: string;
@@ -43,6 +40,25 @@ export interface Position {
   is_active: boolean;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface Role {
+  id: number;
+  role_name: string;
+  description: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Department {
+  id: number;
+  department_code: string;
+  name: string;
+  office_id: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface UserRole {

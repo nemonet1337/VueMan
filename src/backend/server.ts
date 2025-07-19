@@ -8,6 +8,7 @@ import userRolesRoutes from './routes/userRoles.routes';
 import roleRoutes from './routes/roles.routes';
 import departmentsRoutes from './routes/departments.routes';
 import attendanceRecordsRoutes from './routes/attendance_records.routes';
+import attendanceRoutes from './routes/attendance.routes';
 import dbPlugin from './plugins/db';
 import jwtPlugin from './utils/jwt';
 import employeeRoutes from './routes/employees.routes';
@@ -34,6 +35,7 @@ server.register(userRoutes);     // ユーザーマスタ
 server.register(workPatternRoutes);
 server.register(userRolesRoutes); // ユーザーロール
 server.register(attendanceRecordsRoutes);
+server.register(attendanceRoutes);
 
 const start = async () => {
   try {
